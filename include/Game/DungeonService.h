@@ -9,7 +9,7 @@ namespace PKMD::Game
 {
 	struct IDungeonRegistrar
 	{
-		virtual bool RegisterNewDungeon(const std::string& id, const Dungeon* dungeon) = 0;
+		virtual bool RegisterNewDungeon(const std::string& id, std::unique_ptr<Dungeon> dungeon) = 0;
 		PKMD_SERVICE_INTERFACE;
 	};
 
@@ -24,7 +24,6 @@ namespace PKMD::Game
 		
 		virtual Json::Value getRootMap() const override { return m_rootMap;  };
 	private:
-		bool ParseDungeons() const;
 		Json::Value m_rootMap;
 	};
 	

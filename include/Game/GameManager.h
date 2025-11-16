@@ -1,6 +1,6 @@
 #pragma once
 #include <Backend/Types.h>	
-
+#include <json/json.h>
 
 namespace PKMD::Game
 {
@@ -11,16 +11,17 @@ namespace PKMD::Game
 		bool LoadAssets();
 
 	private:
+		void ParseAssets();
 		bool LoadAssetFiles();
 		bool LoadDungeonsFromJson();
 
-		struct AssetFilePaths
+		struct AssetJsonMaps
 		{
-			std::string& dungeonFilePath;
-			//std::string& 
+			Json::Value dungeonJsonMap;
+			
 		};
 		
-		AssetFilePaths* m_assetFilePaths;
+		AssetJsonMaps m_assetJsonMaps;
 
 	};
 }

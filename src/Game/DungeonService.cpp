@@ -10,7 +10,7 @@ namespace PKMD::Game
     {
         PKMD_SERVICE_BIND1(DungeonMgr, IDungeonRegistrar);
 
-        bool RegisterNewDungeon(const std::string& id, const Dungeon* dungeon) override;
+        bool RegisterNewDungeon(const std::string& id, std::unique_ptr<Dungeon> dungeon) override;
 
         Dungeon* GetCurrDungeon();
 
@@ -18,14 +18,14 @@ namespace PKMD::Game
         Dungeon* currDungeon = nullptr;
         Dungeon* nextDungeon = nullptr;
 
-        std::map<const std::string, const Dungeon*> dungeonMap;
+        std::map<const std::string, std::unique_ptr<Dungeon>> dungeonMap;
     };
 
-    bool DungeonMgr::RegisterNewDungeon(const std::string& id, const Dungeon* dungeon)
+    bool DungeonMgr::RegisterNewDungeon(const std::string& id, std::unique_ptr<Dungeon> dungeon)
     {
         if (dungeonMap.find(id) != dungeonMap.end())
         {
-            dungeonMap[id] = dungeon;
+            dungeonMap[id] = std::move(dungeon);
             return true;
         }
         return false;
@@ -49,8 +49,7 @@ namespace PKMD::Game
 	{
 		// Create a JsonCpp root value
 		PKMD::Backend::Utils::populateRoot(input, m_rootMap);
-		bool isHandled = ParseDungeons();
-		return false;
+		return true;
 	}
 
 	bool DungeonParser::DeserializeFromFile(const std::string& filePath)
