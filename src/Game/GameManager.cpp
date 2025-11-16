@@ -1,45 +1,50 @@
 #include "Backend/Types.h"
+#include <Backend/ServiceMgr.h>
+#include <Backend/Utils/FileUtils.h>
 
 
 #include "Game/GameManager.h"
-#include "Game/DungeonMgr.h"
+#include "Game/DungeonService.h"
+#include <Game/GameManagerDefines.h>
+
+using namespace PKMD::Backend::Utils;
 
 namespace PKMD::Game
 {
-	static GameManager* g_GameManagerInstance = nullptr;
-
-	GameManager* GameManager::Create()
+	void GameManager::Reset()
 	{
-		PKMD_ASSERT(g_GameManagerInstance == nullptr);
-		if (!g_GameManagerInstance)
-			g_GameManagerInstance = new GameManager();
-
-		return g_GameManagerInstance;
+		PKMD_ASSERT(m_assetFilePaths);
+		delete m_assetFilePaths;
 	}
 
-	GameManager* Game::GameManager::GetInstance()
+	bool GameManager::LoadAssets()
 	{
-		if (g_GameManagerInstance == nullptr)
-		{
-			g_GameManagerInstance = GameManager::Create();
-		}
-		return g_GameManagerInstance;
+		PKMD::Backend::ServiceMgr serviceMgr = PKMD::Backend::ServiceMgr::GetInstance();
+	
+		// Gather all file paths
+		FilePathsParser* filePathsParser = new FilePathsParser();
+		filePathsParser->DeserializeFromFile(filePathsJson);
+		auto rootFilesMap = filePathsParser->getRootMap();
+
+		// Parse dungeons
+		std::string dungeonsFilePath = rootFilesMap["DungeonsFilePath"].asString();
+		DungeonParser* dungeonParser = new DungeonParser();
+		dungeonParser->DeserializeFromFile(dungeonsFilePath);
+
+		return true;
+	}
+	
+	bool GameManager::LoadAssetFiles()
+	{
+
+		return false;
 	}
 
-	void Game::GameManager::Destroy()
+	bool GameManager::LoadDungeonsFromJson()
 	{
-		PKMD_ASSERT(g_GameManagerInstance);
-		delete g_GameManagerInstance;
-	}
+		PKMD_ASSERT(m_assetFilePaths);
+		
 
-	void GameManager::Init()
-	{
-		DungeonMgr* dungeonMgr = PKMD::Game::DungeonMgr::GetInstance();
-		dungeonMgr->Init();
+		return false;
 	}
-
-	void Game::GameManager::InitGameManager()
-	{
-	}
-
 }

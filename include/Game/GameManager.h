@@ -1,14 +1,26 @@
 #pragma once
+#include <Backend/Types.h>	
+
+
 namespace PKMD::Game
 {
-	class GameManager
+	class GameManager : public Singleton<GameManager>
 	{
 	public:
-		static GameManager* Create();
-		static GameManager* GetInstance();
-		static void Destroy();
-		void Init();
+		void Reset();
+		bool LoadAssets();
+
 	private:
-		void InitGameManager();
+		bool LoadAssetFiles();
+		bool LoadDungeonsFromJson();
+
+		struct AssetFilePaths
+		{
+			std::string& dungeonFilePath;
+			//std::string& 
+		};
+		
+		AssetFilePaths* m_assetFilePaths;
+
 	};
 }

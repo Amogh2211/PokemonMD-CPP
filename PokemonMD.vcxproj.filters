@@ -16,10 +16,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Content\DungeonList.json" />
+    <None Include="Content\DungeonsList.json" />
     <None Include="include\Backend\RTTI\RTTI.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Content\FilePaths.json" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,16 +29,19 @@
     <ClCompile Include="src\Game\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\DungeonMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Dungeons\Dungeon.cpp">
+    <ClCompile Include="src\Game\DungeonService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Dungeons\Floor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\Backend\RTTI\RTTI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Dungeons\Dungeon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Backend\Utils\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,13 +52,13 @@
     <ClInclude Include="include\Backend\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game\DungeonMgr.h">
+    <ClInclude Include="include\Game\DungeonService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\Dungeons\Dungeon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Backend\Parser.h">
+    <ClInclude Include="include\Backend\Utils\Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Game\Dungeons\Floor.h">
@@ -76,6 +80,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Backend\FactoryService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Backend\Utils\HashHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game\GameManagerDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Backend\Utils\FileUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

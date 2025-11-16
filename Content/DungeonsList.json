@@ -1,0 +1,30 @@
+{
+	"DungeonName": {
+		"EnemyPools": {
+			"1": "Name1, Name2, Name3, Name4",
+			"2": "Name1, Name2, Name3, Name4",
+			"3": "Name1, Name2, Name3, Name4"
+		}
+	},
+	"DungeonName2": {
+		"EnemyPools": {
+			"1": "Name1, Name2, Name3, Name4",
+			"2": "Name1, Name2, Name3, Name4",
+			"3": "Name1, Name2, Name3, Name4"
+		}
+	},
+	"DungeonName3": {
+		"EnemyPools": {
+			"1": "Name1, Name2, Name3, Name4",
+			"2": "Name1, Name2, Name3, Name4",
+			"3": "Name1, Name2, Name3, Name4"
+		}
+	},
+	"DungeonName4": {
+		"EnemyPools": {
+			"1": "Name1, Name2, Name3, Name4",
+			"2": "Name1, Name2, Name3, Name4",
+			"3": "Name1, Name2, Name3, Name4"
+		}
+	}
+}

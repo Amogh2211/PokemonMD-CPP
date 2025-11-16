@@ -17,6 +17,10 @@
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
+// File necessities
+#include <iostream>
+#include <fstream>
+#include <istream>
 
 using string = std::string;
 using InterfaceID = size_t;
@@ -32,7 +36,7 @@ using InterfaceID = size_t;
 #ifndef PKMD_MEMORY_DEBUG 
 #ifdef  PKMD_DEBUG
 #define PKMD_MEMORY_DEBUG       // Define PKMD_MEMORY_DEBUG here!!!!! -> (Assignment purpose comments)
-#define PKMD_ASSERT_HIDE() PKMD::Engine::ScopedAssertHide _unused_hide_
+#define PKMD_ASSERT_HIDE() PKMD::ScopedAssertHide _unused_hide_
 #define PKMD_ASSERT(_expr) if(!(_expr)) _RPT0(_CRT_ASSERT, "Assert: "#_expr)
 #define PKMD_WARN(_expr) if(!(_expr)) _RPT0(_CRT_WARN, "Warning: "#_expr)
 #define PKMD_ERROR(_expr) if(!(_expr)) { _RPT0(_CRT_ERROR, "Error: "#_expr); PKMD_ABORT(); }

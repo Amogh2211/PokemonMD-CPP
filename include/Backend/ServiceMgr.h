@@ -29,7 +29,7 @@ static inline InterfaceID GetInterfaceId() \
 #define PKMD_SERVICE_BIND1(_impl, _intf)                                                                                              \
 static bool _Register()                                                                                                               \
 {                                                                                                                                     \
-    auto& manager = ServiceManager::Instance();                                                                                       \
+    auto& manager = PKMD::Backend::ServiceMgr::GetInstance();                                                                                       \
     CreateFunc create = []()->void*{ return new _impl();};                                                                            \
     DestroyFunc destroy = [](void* service){delete static_cast<_impl*>(service);};                                                    \
     ProvideFunc provide = [](void* service) -> void*{return static_cast<_intf*>(static_cast<_impl*>(service));};                      \
@@ -41,7 +41,7 @@ static inline bool registered = _Register();                                    
 #define PKMD_SERVICE_BIND2(_impl, _intf1, _intf2)                                                                                     \
 static bool _Register()                                                                                                               \
 {                                                                                                                                     \
-    auto& manager = ServiceManager::Instance();                                                                                       \
+    auto& manager = PKMD::Backend::ServiceMgr::GetInstance();                                                                                       \
     CreateFunc create = []()->void*{ return new _impl();};                                                                            \
     DestroyFunc destroy = [](void* service){delete static_cast<_impl*>(service);};                                                    \
     ProvideFunc provide1 = [](void* service) -> void*{return static_cast<_intf1*>(static_cast<_impl*>(service));};                    \
@@ -56,7 +56,7 @@ static inline bool registered = _Register();                                    
 #define PKMD_SERVICE_BIND3(_impl, _intf1, _intf2, _intf3)                                                                             \
 static bool _Register()                                                                                                               \
 {                                                                                                                                     \
-    auto& manager = ServiceManager::Instance();                                                                                       \
+    auto& manager = PKMD::Backend::ServiceMgr::GetInstance();                                                                                       \
     CreateFunc create    = []()->void*{ return new _impl();};                                                                         \
     DestroyFunc destroy  = [](void* service){delete static_cast<_impl*>(service);};                                                   \
     ProvideFunc provide1 = [](void* service) -> void*{return static_cast<_intf1*>(static_cast<_impl*>(service));};                    \
@@ -72,7 +72,7 @@ static inline bool registered = _Register();                                    
 #define PKMD_SERVICE_BIND4(_impl, _intf1, _intf2, _intf3, _intf4)                                                                             \
 static bool _Register()                                                                                                               \
 {                                                                                                                                     \
-    auto& manager = ServiceManager::Instance();                                                                                       \
+    auto& manager = PKMD::Backend::ServiceMgr::GetInstance();                                                                                       \
     CreateFunc create    = []()->void*{ return new _impl();};                                                                         \
     DestroyFunc destroy  = [](void* service){delete static_cast<_impl*>(service);};                                                   \
     ProvideFunc provide1 = [](void* service) -> void*{return static_cast<_intf1*>(static_cast<_impl*>(service));};                    \
@@ -124,7 +124,7 @@ namespace PKMD::Backend
             //ServiceManager& sm = Instance();
             InterfaceID id = I::GetInterfaceId();
 
-            auto& tempProviders = Instance()._providers;
+            auto& tempProviders = GetInstance()._providers;
 
             std::unordered_map<InterfaceID, ServiceProvider>::iterator it = tempProviders.find(id);
             if (it == tempProviders.end())
@@ -136,9 +136,6 @@ namespace PKMD::Backend
             void* implementation = GetImplementation(provider);
             return static_cast<I*>(provider.Provide(implementation));
         }
-
-        
-
 
     private:
         ServiceMgr() = default;

@@ -53,7 +53,7 @@ namespace PKMD::Backend
 	inline void IFactoryService::Register(std::unique_ptr<IAbstractFactory<T>>&& concreteFactory)
 	{
 		// Ensure valid pointer has been sent
-		FIEA_ERROR(concreteFactory != nullptr);
+		PKMD_ERROR(concreteFactory != nullptr);
 
 		// Register this based on TypeID, 
 		// move is used because std::unique_ptr does not support copy construction
@@ -65,11 +65,11 @@ namespace PKMD::Backend
 	{
 		IFactoryBase* factoryBase = GetFactory(T::TypeIdClass(), productName);
 		// Ensure successful lookup
-		FIEA_ERROR(factoryBase != nullptr);
+		PKMD_ERROR(factoryBase != nullptr);
 
 		// Cast to child, Abstract Factory
 		auto* abstractFactory = static_cast<IAbstractFactory<T>*>(factoryBase);
-		FIEA_ERROR(abstractFactory != nullptr);
+		PKMD_ERROR(abstractFactory != nullptr);
 
 		// Call type specifc create to get the correct class
 		return abstractFactory->Create();
