@@ -37,6 +37,14 @@ using InterfaceID = size_t;
 #ifdef  PKMD_DEBUG
 #define PKMD_MEMORY_DEBUG       // Define PKMD_MEMORY_DEBUG here!!!!! -> (Assignment purpose comments)
 #define PKMD_ASSERT_HIDE() PKMD::ScopedAssertHide _unused_hide_
+#define PKMD_INFO_ASSERT(expr, fmt, ...)                               \
+    do {                                                               \
+        if (!(expr)) {                                                 \
+            char _buf[512];                                            \
+            snprintf(_buf, sizeof(_buf), "Assert: " fmt, __VA_ARGS__); \
+            _RPT0(_CRT_ASSERT, _buf);                                  \
+        }                                                              \
+    } while (0)
 #define PKMD_ASSERT(_expr) if(!(_expr)) _RPT0(_CRT_ASSERT, "Assert: "#_expr)
 #define PKMD_WARN(_expr) if(!(_expr)) _RPT0(_CRT_WARN, "Warning: "#_expr)
 #define PKMD_ERROR(_expr) if(!(_expr)) { _RPT0(_CRT_ERROR, "Error: "#_expr); PKMD_ABORT(); }
@@ -91,7 +99,7 @@ namespace PKMD
     template <typename T, bool Auto = false>
     struct Singleton
     {
-        static void Create() { _Instance = new T; }
+        static void Create() { PKMD_WARN(_Instance != nullptr);  _Instance = new T; }
         static void Destroy() { delete _Instance; _Instance = nullptr; }
         static T* Instance()
         {

@@ -27,6 +27,10 @@ namespace PKMD::Game
 		return true;
 	}
 
+	void GameManager::ParseAssets()
+	{
+	}
+
 	bool GameManager::LoadAssetFiles()
 	{
 		// Gather all file paths
@@ -53,20 +57,19 @@ namespace PKMD::Game
 
 	bool GameManager::LoadDungeonsFromJson()
 	{
+		PKMD::Backend::ServiceMgr serviceMgr = PKMD::Backend::ServiceMgr::GetInstance();
+		PKMD::Game::IDungeonRegistrar* dungeonRegistrar = static_cast<PKMD::Game::IDungeonRegistrar*>(serviceMgr.ProvideInterface<PKMD::Game::IDungeonRegistrar>());
+		PKMD_ASSERT(dungeonRegistrar);
+		
 		PKMD_ASSERT(m_assetJsonMaps.dungeonJsonMap.size() > 0);
+
 		const auto& dungeonMap = m_assetJsonMaps.dungeonJsonMap;
-		for (const auto& dungeonName : dungeonMap)
+		for (const auto& dungeonName : dungeonMap.getMemberNames())
 		{
-			Dungeon* dungeon = new Dungeon(dungeonName.asString());
-
-			for (const auto& pool : dungeonName["EnemyPools"])
-			{
-
-			}
+			const auto& temp = dungeonMap[dungeonName];
+			PKMD_ASSERT(dungeonRegistrar->RegisterNewDungeonData(dungeonName, temp));
 		}
 		
-		PKMD::Backend::ServiceMgr serviceMgr = PKMD::Backend::ServiceMgr::GetInstance();
-		PKMD::Game::IDungeonRegistrar* dugeonRegistrar = static_cast<PKMD::Game::IDungeonRegistrar*>(serviceMgr.ProvideInterface<PKMD::Game::IDungeonRegistrar>());
 		
 		return false;
 	}

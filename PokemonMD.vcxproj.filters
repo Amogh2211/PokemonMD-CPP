@@ -44,6 +44,9 @@
     <ClCompile Include="src\Backend\Utils\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\Backend\Events\EventBus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\GameManager.h">
@@ -89,6 +92,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Backend\Utils\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Backend\Input\InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Backend\Events\EventBus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

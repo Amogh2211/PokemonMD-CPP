@@ -148,6 +148,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Backend\Events\EventBus.cpp" />
     <ClCompile Include="include\Backend\RTTI\RTTI.cpp" />
     <ClCompile Include="src\Backend\Utils\Parser.cpp" />
     <ClCompile Include="src\Game\Dungeons\Dungeon.cpp" />
@@ -157,7 +158,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Backend\Events\EventBus.h" />
     <ClInclude Include="include\Backend\FactoryService.h" />
+    <ClInclude Include="include\Backend\Input\InputManager.h" />
     <ClInclude Include="include\Backend\Utils\FileUtils.h" />
     <ClInclude Include="include\Backend\Utils\Parser.h" />
     <ClInclude Include="include\Backend\RTTI\RTTI.h" />

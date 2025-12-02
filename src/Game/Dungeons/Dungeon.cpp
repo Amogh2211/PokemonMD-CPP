@@ -7,21 +7,30 @@ namespace PKMD::Game::Dungeons
 	{
 		PKMD_ASSERT(name.length() > 0); 
 
-		m_dungeonParams.m_Name = name;
-		m_dungeonParams.m_Id = PKMD::Backend::Utils::generateHash(m_dungeonParams.m_Name);
+		//m_dungeonParams.m_Name = name;
+		//m_dungeonParams.m_Id = PKMD::Backend::Utils::generateHash(m_dungeonParams.m_Name);
 	}
 	Dungeon::Dungeon(const Dungeon& other)
 	{
-		//PKMD_ASSERT()
+		PKMD_ASSERT(other.GetName().size() > 0);
+		
+		{
+			//m_dungeonParams.m_Name = other.m_dungeonParams.m_Name;
+			//m_dungeonParams.m_Id = other.m_dungeonParams.m_Id;
+			//m_dungeonParams.m_NumFloors = other.m_dungeonParams.m_NumFloors;
+		}
 	}
+
 	size_t Dungeon::GetID() const
 	{
-		return m_dungeonParams.m_Id;
+		return size_t();
+		//return m_dungeonParams.m_Id;
 	}
 
 	const std::string& Dungeon::GetName() const
 	{
-		return m_dungeonParams.m_Name;
+		return std::string();
+		//return m_dungeonParams.m_Name;
 	}
 	
 }

@@ -1,13 +1,18 @@
 #pragma once
 #include <vector>
-#include "Game/AI/Enemy.h"
+#include <string>
+
+
+//class EnemyAI;
 
 
 namespace PKMD::Game
 {
+	
+
 	class Floor
 	{
 	private:
-		std::vector<PKMD::Game::Enemy*> enemies;
+		//FloorParams m_floorParams{};
 	};
 }

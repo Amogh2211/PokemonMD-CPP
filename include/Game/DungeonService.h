@@ -2,16 +2,23 @@
 #include <Backend/Types.h>
 #include <Backend/Utils/Parser.h>
 
-#include "Game/Dungeons/Dungeon.h"
 
-using namespace PKMD::Game::Dungeons;
+class Dungeon;
 namespace PKMD::Game
 {
 	struct IDungeonRegistrar
 	{
-		virtual bool RegisterNewDungeon(const std::string& id, std::unique_ptr<Dungeon> dungeon) = 0;
+		virtual bool RegisterNewDungeonData(const std::string& id, const Json::Value& dungeon) = 0;
 		PKMD_SERVICE_INTERFACE;
 	};
+
+
+	struct IDungeonCreator
+	{
+		virtual Dungeon* BuildAndRegisterDungeonFromParams(const std::string& dungeonName) = 0;
+		PKMD_SERVICE_INTERFACE;
+	};
+
 
 	class DungeonParser : public PKMD::Backend::Utils::IJsonParser
 	{
