@@ -12,11 +12,13 @@
 namespace PKMD::Game
 {
 	// Json Value Keys
-	std::string dungeonMapKeys[] =
+	const std::vector<std::string> dungeonMapKeys =
 	{
-		"Floors"
+		"Floors",
+		"Dungeons"
 	};
-	std::string floorMapKeys[] = 
+
+	const std::vector<std::string> floorMapKeys = 
 	{
 		"MinRooms",
 		"MaxRooms",
@@ -26,7 +28,7 @@ namespace PKMD::Game
 		"Weather",
 		"Generator"
 	};
-	std::string enemyMapKeys[] =
+	const std::vector<std::string> enemyMapKeys =
 	{
 		"Species",
 		"MinLevel",
@@ -63,23 +65,25 @@ namespace PKMD::Game
 	};
 
     
-    class DungeonMgr : IDungeonRegistrar, IDungeonCreator
+    class DungeonMgr : public IDungeonRegistrar, public IDungeonCreator
     {
         PKMD_SERVICE_BIND2(DungeonMgr, IDungeonRegistrar, IDungeonCreator);
 
-        virtual bool RegisterNewDungeonData(const std::string& id, const Json::Value& dungeon) override;
-		virtual Dungeon* BuildAndRegisterDungeonFromParams(const std::string& dungeonName) override;
+        bool RegisterNewDungeonData(const std::string& id, const Json::Value& dungeon) override;
+		Dungeon* BuildAndRegisterDungeonFromParams(const std::string& dungeonName) override;
 
         Dungeon* GetCurrDungeon();
 		void SetCurrentDungeon(const std::string& dungeonName);
-    private:
-		void BuildDungeonParams(DungeonParams&,const Json::Value&);
+    
+		void BuildDungeonParams(DungeonParams&,const Json::Value&) const;
 
         Dungeon* currDungeon = nullptr;
         
 		// dungeon name -> dungeon params
         std::map<const std::string, DungeonParams> m_dungeonDataMap;
 		std::map < const std::string, Dungeon*> m_dungeonInstances;
+
+		~DungeonMgr() = default;
     };
 
     bool DungeonMgr::RegisterNewDungeonData(const std::string& id, const Json::Value& dungeonParamsMap)
@@ -126,13 +130,13 @@ namespace PKMD::Game
 #endif
 	}
 
-	void DungeonMgr::BuildDungeonParams(DungeonParams& outParams, const Json::Value& dungeonParamsMap)
+	void DungeonMgr::BuildDungeonParams(DungeonParams& outParams, const Json::Value& dungeonParamsMap) const
 	{
 		
 		const auto& floorData = dungeonParamsMap[dungeonMapKeys[0]];
 		const int numFloors = floorData.size();
 		outParams.m_NumFloors = numFloors;
-
+		outParams.m_dificultyLevel = (size_t)dungeonParamsMap[dungeonMapKeys[1]].asInt();
 
 		for (int i = 0; i < numFloors; ++i)
 		{
@@ -144,15 +148,14 @@ namespace PKMD::Game
 			const auto& enemyArray = temp[floorMapKeys[2]];
 			const int enemyTypes = enemyArray.size();
 			
-			for (int i = 0; i < enemyTypes; ++i)
+			for (int j = 0; j < enemyTypes; ++j)
 			{
 				EnemyParams newEnemyParams;
 
-				std::cout << "----------------------\n-------------------\n";
-				newEnemyParams.mSpecies = enemyArray[i][enemyMapKeys[0]].asString();
-				newEnemyParams.mLevelRange.first = enemyArray[i][enemyMapKeys[1]].asInt();
-				newEnemyParams.mLevelRange.second = enemyArray[i][enemyMapKeys[2]].asInt();
-				newEnemyParams.mSpawnWeights = enemyArray[i][enemyMapKeys[3]].asFloat();
+				newEnemyParams.mSpecies = enemyArray[j][enemyMapKeys[0]].asString();
+				newEnemyParams.mLevelRange.first = enemyArray[j][enemyMapKeys[1]].asInt();
+				newEnemyParams.mLevelRange.second = enemyArray[j][enemyMapKeys[2]].asInt();
+				newEnemyParams.mSpawnWeights = enemyArray[j][enemyMapKeys[3]].asFloat();
 				
 				newFloorParams.mEnemyParams.push_back(newEnemyParams);
 			}

@@ -1,10 +1,12 @@
 #pragma once
 #include <Backend/Types.h>
+#include <Game/BaseTypes/GameObject.h>
+
 
 namespace PKMD::Game::Dungeons
 {
 	
-	class Dungeon
+	class Dungeon : public PKMD::Game::GameObject
 	{
 	public:
 		Dungeon(const std::string& name);

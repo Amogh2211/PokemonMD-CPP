@@ -16,7 +16,11 @@ namespace PKMD::Game
 
 	}
 
-	bool GameManager::LoadAssets()
+	void GameManager::Update()
+	{
+	}
+
+	bool GameAssetManager::LoadAssets()
 	{
 
 		LoadAssetFiles();
@@ -27,11 +31,11 @@ namespace PKMD::Game
 		return true;
 	}
 
-	void GameManager::ParseAssets()
+	void GameAssetManager::ParseAssets()
 	{
 	}
 
-	bool GameManager::LoadAssetFiles()
+	bool GameAssetManager::LoadAssetFiles()
 	{
 		// Gather all file paths
 		FilePathsParser* filePathsParser = new FilePathsParser();
@@ -55,7 +59,7 @@ namespace PKMD::Game
 		return true;
 	}
 
-	bool GameManager::LoadDungeonsFromJson()
+	bool GameAssetManager::LoadDungeonsFromJson()
 	{
 		PKMD::Backend::ServiceMgr serviceMgr = PKMD::Backend::ServiceMgr::GetInstance();
 		PKMD::Game::IDungeonRegistrar* dungeonRegistrar = static_cast<PKMD::Game::IDungeonRegistrar*>(serviceMgr.ProvideInterface<PKMD::Game::IDungeonRegistrar>());

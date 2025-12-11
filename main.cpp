@@ -1,50 +1,87 @@
+#pragma once
 #include "Game/GameManager.h"
 #include <filesystem>
 #include <stdio.h>
 
-// Should ideally make a logger at some point
-using namespace PKMD::Game;
-
-#pragma once
-#include <unordered_map>
-#include <vector>
-#include <functional>
-#include <typeindex>
-#include <algorithm>
 
 #include <Backend/Types.h>
+#include <Backend/Events/EventBus.h>
+#include <Backend/Input/InputManager.h>
+
+#include <Game/UI/MenuManager.h>
+
+// Should ideally make a logger at some point
+using namespace PKMD::Game;
+using namespace PKMD::Backend::Events;
+using namespace PKMD::Backend::Input;
+
+
+// ---------------- Player ------------------------
+struct Player {
+	int x = 400;
+	int y = 300;
+	int speed = 5;
+
+	void MoveUp()
+	{
+		y -= speed;
+		std::cout << "PlayerMovedUp\n";
+	}
+	void MoveDown() { y += speed; std::cout << "PlayerMovedDown\n"; }
+	void MoveLeft() { x -= speed; std::cout << "PlayerMovedLeft\n"; }
+	void MoveRight() { x += speed; std::cout << "PlayerMovedRight\n"; }
+
+	void Render() const { DrawRectangle(x, y, 50, 50, BLUE); }
+	void SubscribeToEvents()
+	{
+		PKMD::Backend::Events::EventBus& eventBus = *PKMD::Backend::Events::EventBus::Instance();
+		// Subscribe Player movement
+		eventBus.Subscribe<KeyPressedEvent>([&](const KeyPressedEvent& e) {
+			switch (e.keyCode)
+			{
+			case KEY_UP:    MoveUp(); break;
+			case KEY_DOWN:  MoveDown(); break;
+			case KEY_LEFT:  MoveLeft(); break;
+			case KEY_RIGHT: MoveRight(); break;
+			}
+			},
+			EventChannels::EVENT_TYPE_INPUT
+		);
+
+	}
+};
+
+
 
 
 
 int main()
 {
-	/*GameManager::Create();
-
-	GameManager* gameMgr = GameManager::Instance();
+	PKMD::Backend::Events::EventBus& eventBus = *PKMD::Backend::Events::EventBus::Instance();
 	
-	std::filesystem::path cwd = std::filesystem::current_path();
-	std::cout << "Current System Path: " << cwd << "\n";
+	InitWindow(800, 600, "EventBus Input Example");
+	SetTargetFPS(60);
 
 	
-	PKMD_ASSERT(gameMgr);
+	Player player;
+	player.SubscribeToEvents();
 
-	PKMD_ASSERT(gameMgr->LoadAssets());*/
+	
 
-    //EventBus bus;
+	while (!WindowShouldClose())
+	{
+		// 1. Poll inputs and emit events
+		PKMD::Backend::Input::InputManager::PollInput(eventBus);
 
-    size_t handle1 = bus.Subscribe<int>([](const int& x) {
-        std::cout << "Got int event 1: " << x << "\n";
-        });
+		// 2. Draw scene
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
 
-    size_t handle2 = bus.Subscribe<int>([](const int& x) {
-        std::cout << "Got int event 2: " << x << "\n";
-        });
-    
-    bus.Emit<int>(42, handle1);
-    bus.Emit<int>(100, handle2);
+		player.Render();
+		
+		EndDrawing();
+	}
 
-
-    bus.Unsubscribe<int>(handle1);
-    bus.Unsubscribe<int>(handle2);
+	CloseWindow();
 	return 0;
 }

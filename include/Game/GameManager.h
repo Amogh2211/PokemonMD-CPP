@@ -2,14 +2,14 @@
 #include <Backend/Types.h>	
 #include <json/json.h>
 
+
 namespace PKMD::Game
 {
-	class GameManager : public Singleton<GameManager>
+	class GameObject;
+	class GameAssetManager : public Singleton<GameAssetManager, true>
 	{
 	public:
-		void Reset();
 		bool LoadAssets();
-
 	private:
 		void ParseAssets();
 		bool LoadAssetFiles();
@@ -18,10 +18,30 @@ namespace PKMD::Game
 		struct AssetJsonMaps
 		{
 			Json::Value dungeonJsonMap;
-			
+
 		};
-		
+
 		AssetJsonMaps m_assetJsonMaps;
+	};
+
+	class GameManager : public Singleton<GameManager, true>
+	{
+	public:
+		void Reset();
+		void InitGame() const
+		{
+			// Load assets
+			GameAssetManager* gameAssetManager = GameAssetManager::Instance();
+			PKMD_ASSERT(gameAssetManager->LoadAssets());
+		};
+
+		void Update();
+
+
+	private:
+		std::vector<GameObject*> m_registeredGameObjects;
 
 	};
+
+	
 }

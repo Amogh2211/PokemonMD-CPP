@@ -5,9 +5,14 @@
 #error PKMD_DEBUG should be defined in project settings for debug builds!
 #endif
 
-#define WIN32_LEAN_AND_MEAN
+#define NOGDI          // Exclude GDI functions
+#define NOSERVICE      // Exclude service controller functions
+#define NOMCX          // Exclude Modem Configuration Extensions
+#define NOMINMAX       // Avoid min/max macros
+#define NOWINUSER     // <- This prevents most of winuser.h
 
-#include <windows.h>
+
+//#include <windows.h>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -27,8 +32,12 @@ using InterfaceID = size_t;
 
 // Macros to forcibly crash the application when encountering fatal errors
 #define PKMD_ABORT_CODE 0xE0000001
-#define PKMD_ABORT() RaiseException(PKMD_ABORT_CODE, 0, 0, 0)
-#define PKMD_ABORT_CHECK(_code) (GetExceptionCode() == PKMD_ABORT_CODE)
+#define PKMD_ABORT() std::abort();  // terminates the program
+
+// Checking "exception code" isn’t possible without Windows, so we simulate it
+#define PKMD_ABORT_CHECK(_code) false   // always false, no OS-level exception
+
+
 
 // Completely unnecessary remapping to make it easier to nav to windows exception codes!
 #define PKMD_ACCESS_VIOLATION EXCEPTION_ACCESS_VIOLATION

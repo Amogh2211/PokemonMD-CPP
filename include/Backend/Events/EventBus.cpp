@@ -4,10 +4,14 @@ namespace PKMD::Backend::Events
 {
 	void EventBus::Reset()
 	{
-		for (auto& it : m_eventsMap)
+		for (auto& map : m_eventsMap)
 		{
-			it.second.clear();
+			for (auto& it : map.second)
+			{
+				it.second.clear();
+			}
 		}
+		
 		m_eventsMap.clear();
 
 #ifdef PKMD_DEBUG

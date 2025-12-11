@@ -1,6 +1,9 @@
 #include "Game/Dungeons/Dungeon.h"
 #include <Backend/Utils/HashHelper.h>
 
+
+
+static std::string stringTemp = "";
 namespace PKMD::Game::Dungeons
 {
 	Dungeon::Dungeon(const std::string& name)
@@ -29,7 +32,7 @@ namespace PKMD::Game::Dungeons
 
 	const std::string& Dungeon::GetName() const
 	{
-		return std::string();
+		return stringTemp;
 		//return m_dungeonParams.m_Name;
 	}
 	

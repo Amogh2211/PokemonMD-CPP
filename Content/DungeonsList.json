@@ -1,5 +1,6 @@
 {
 	"DungeonName": {
+		"Difficulty": 1,
 		"Floors": [
 			{
 				"MinRooms": 4,
@@ -12,12 +13,12 @@
 						"Weight": 5
 					}
 				],
-				"Items": [	// Item types
+				"Items": [ // Item types
 					"Item1",
 					"Item2",
 					"Item3"
 				],
-				"Traps": [	// Should be trap types
+				"Traps": [ // Should be trap types
 					"Trap1",
 					"Trap2",
 					"Trap3"
